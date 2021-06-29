@@ -1,0 +1,147 @@
+#installation 
+pip3 install -r requirements.txt
+
+#registration
+
+* request type -> Post
+* request url -> http://127.0.0.1:8000/api/registration/
+* request body -> 
+{
+    "phone":"9765495432",
+    "password":"123456",
+    "username":"aayush"
+    "email": "aayush@gmail.com"    <- email is optional as mention
+ }
+    
+* reponse ->
+{
+    "response": "successfully register a new user",
+    "phoneNumber": "9765495432",
+    "name": "aayush",
+    "emailId": "aayush@gmail.com",
+    "token": "76305603b0e4ed0501129f5c74a1a1680c28afd0"  <- Use this auth token in header as autherizaton
+}
+
+
+=========================================================================================================================================================================
+#Login
+
+* request type -> Post
+* request url ->  http://127.0.0.1:8000/api/login/
+* request body -> 
+ {
+ "username":"9765495432",
+ "password":"123456"
+ }
+    
+* reponse ->
+{
+    "token": "76305603b0e4ed0501129f5c74a1a1680c28afd0"  <- Use this auth token in header as autherizaton
+}
+
+
+=========================================================================================================================================================================
+#Mark spam ( spam count of user is increament by one )
+
+* request type -> Post
+* request url ->  http://127.0.0.1:8000/api/markTheNumberSpam/    # use auth token in header [{"key":"Authorization","value":"Token 76305603b0e4ed0501129f5c74a1a1680c28afd0"}]
+* request body -> 
+ {
+ "phoneNumber":"9765495432"
+ }
+
+* reponse ->  
+{
+    "response": "Number marked spam successfully!"
+}
+
+=========================================================================================================================================================================
+# search search By User Name (name who startwidth "aa" and include "aa")
+
+* request type -> Post
+* request url ->  http://127.0.0.1:8000/api/searchByUserName/    # use auth token in header [{"key":"Authorization","value":"Token 76305603b0e4ed0501129f5c74a1a1680c28afd0"}]
+* request body -> 
+ {
+ "name":"aa"
+ }
+
+* reponse ->   
+[
+    {
+        "name": "aaakk",
+        "phoneNumber": "1111",
+        "spamCount": 2
+    },
+    {
+        "name": "aaakkaa",
+        "phoneNumber": "2222",
+        "spamCount": 0
+    },
+    {
+        "name": "aap",
+        "phoneNumber": "3333",
+        "spamCount": 0
+    },
+    {
+        "name": "aappa",
+        "phoneNumber": "4444",
+        "spamCount": 0
+    },
+    {
+        "name": "aayush",
+        "phoneNumber": "9765495432",
+        "spamCount": 1
+    }
+]
+
+=========================================================================================================================================================================
+# Search Search By User Phone Number (email is not displayed)
+
+* request type -> Post
+* request url ->  http://127.0.0.1:8000/api/searchByUserPhoneNumber/    # use auth token in header [{"key":"Authorization","value":"Token 76305603b0e4ed0501129f5c74a1a1680c28afd0"}]
+* request body -> 
+ {
+ "phoneNumber":"9765495432"
+ }
+
+
+* reponse ->   
+[
+    {
+        "name": "aayush",
+        "phoneNumber": "9765495432",
+        "spamCount": 1
+    },
+    {
+        "name": "aayush rai",
+        "phoneNumber": "9765495432",
+        "spamCount": 0
+    },
+    {
+        "name": "a rai",
+        "phoneNumber": "9765495432",
+        "spamCount": 0
+    }
+]
+
+=========================================================================================================================================================================
+# Search Search By User Phone Number (this validate third point of search, the person email is only displayed if the person is a register user and the user who is searching 
+    is in the person's contact list)
+
+* request type -> Post
+* request url ->  http://127.0.0.1:8000/api/searchByUserPhoneNumber/    # use auth token in header [{"key":"Authorization","value":"Token 76305603b0e4ed0501129f5c74a1a1680c28afd0"}]
+* request body -> 
+ {
+ "phoneNumber":"5555555555"
+ }
+
+* reponse ->   
+[
+    {
+        "name": "super man",
+        "phoneNumber": "5555555555",
+        "emailId": "55@g.co",
+        "spamCount": 0,
+        "isRegister": true
+    }
+]
